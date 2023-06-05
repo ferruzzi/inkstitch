@@ -3,6 +3,8 @@
 # Copyright (c) 2010 Authors
 # Licensed under the GNU GPL version 3.0 or later.  See the file LICENSE for details.
 
+from typing import List
+
 from .stitch import Stitch
 from ..threads import ThreadColor
 from ..utils.geometry import Point
@@ -156,7 +158,7 @@ class ColorBlock(object):
 
         return minx, miny, maxx, maxy
 
-    def make_offsets(self, offsets: list[Point]):
+    def make_offsets(self, offsets: List[Point]):
         first_final_stitch = len(self.stitches)
         while (first_final_stitch > 0 and self.stitches[first_final_stitch-1].is_terminator):
             first_final_stitch -= 1
