@@ -11,6 +11,7 @@ from ..i18n import _
 from ..svg import PIXELS_PER_MM
 from .color_block import ColorBlock
 from ..utils.threading import check_stop_flag
+from ..utils.geometry import Point
 
 
 def stitch_groups_to_stitch_plan(stitch_groups, collapse_len=None, min_stitch_len=0.1, disable_ties=False):  # noqa: C901
@@ -207,3 +208,8 @@ class StitchPlan(object):
             return self.color_blocks[-1]
         else:
             return None
+
+    def make_offsets(self, offsets: list[Point]):
+        out = StitchPlan()
+        out.color_blocks = [block.make_offsets(offsets) for block in self]
+        return out

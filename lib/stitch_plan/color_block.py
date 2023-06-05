@@ -155,3 +155,20 @@ class ColorBlock(object):
         maxy = max(stitch.y for stitch in self)
 
         return minx, miny, maxx, maxy
+
+    def make_offsets(self, offsets: list[Point]):
+        first_final_stitch = len(self.stitches)
+        while (first_final_stitch > 0 and self.stitches[first_final_stitch-1].is_terminator):
+            first_final_stitch -= 1
+        if first_final_stitch == 0:
+            return self
+        final_stitches = self.stitches[first_final_stitch:]
+        block_stitches = self.stitches[:first_final_stitch]
+
+        out = ColorBlock(self.color)
+        for i, offset in enumerate(offsets):
+            out.add_stitches([s.offset(offset) for s in block_stitches])
+            if i != len(offsets) - 1:
+                out.add_stitch(trim=True)
+        out.add_stitches(final_stitches)
+        return out
